@@ -2,12 +2,15 @@ package service
 
 import model.Candidato
 import model.Empresa
+import model.Vaga
 
 class LinketinderService {
 
     List<Candidato> candidatesList = []
     List<Empresa> companies = []
+    List<Vaga> jobs = []
 
+    Map<Candidato, List<Vaga>> candidateLikes = [:]
 
     LinketinderService() {
         initData()
@@ -27,6 +30,12 @@ class LinketinderService {
         companies << new Empresa(name: "Data Corp", email: "jobs@data.com", cnpj: "22.222.222/0001-22", country: "Brasil", state: "SC", cep: "88000-000", description: "Big Data", skills: ["Spark", "Hadoop"])
         companies << new Empresa(name: "Web House", email: "rh@webhouse.com", cnpj: "33.333.333/0001-33", country: "Brasil", state: "RJ", cep: "20000-000", description: "Agência Digital", skills: ["HTML", "CSS", "Design"])
         companies << new Empresa(name: "Soft Systems", email: "info@soft.com", cnpj: "44.444.444/0001-44", country: "Brasil", state: "RS", cep: "90000-000", description: "ERP", skills: ["Java", "SQL"])
+
+        if (!companies.isEmpty()) {
+            jobs << new Vaga(name: "Dev Groovy Junior", description: "Vaga top", state: "SP", empresa: companies[0], skills: ["Groovy", "Java"])
+            jobs << new Vaga(name: "Analista de Dados", description: "Dados", state: "RJ", empresa: companies[1], skills: ["Python"])
+        }
+
     }
 
     List<Candidato> getCandidatos() {
@@ -37,8 +46,37 @@ class LinketinderService {
         return companies
     }
 
-
-    void adicionarCandidato(Candidato c) {
+    void addCandidate(Candidato c) {
         candidatesList << c
     }
+
+    void likeJob(Candidato candidato, Vaga vaga) {
+        if (!candidateLikes.containsKey(candidato)) {
+            candidateLikes[candidato] = []
+        }
+
+        candidateLikes[candidato] << vaga
+        println "👍 ${candidato.name} curtiu a vaga de ${vaga.name} na ${vaga.empresa.name}."
+    }
+
+    void companyLikesCandidate(Empresa empresa, Candidato candidato) {
+        println "🏢 A empresa ${empresa.name} curtiu o candidato ${candidato.name}."
+
+
+        List<Vaga> jobsLikedByCandidate = candidateLikes[candidato]
+
+        Vaga matchedJob = jobsLikedByCandidate?.find { vaga ->
+            vaga.empresa == empresa
+        }
+
+        if (matchedJob) {
+            println "✨ 🔥 IT'S A MATCH! 🔥 ✨"
+            println "A empresa ${empresa.name} e ${candidato.name} se curtiram para a vaga: ${matchedJob.name}"
+            println "Emails liberados: ${empresa.email} | ${candidato.email}"
+        } else {
+            println "👀 A empresa demonstrou interesse, mas o candidato ainda não curtiu nenhuma vaga dela."
+        }
+    }
+
+    List<Vaga> getVagas() { return jobs }
 }
