@@ -1,0 +1,23 @@
+### IntelliJ IDEA ###
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+.idea/
+*.iws
+*.iml
+*.ipr
+
+### Bibliotecas Externas (Importante!) ###
+lib/
+*.jar
+
+### Eclipse / VS Code / Mac (Padrão) ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+bin/
+.vscode/
+.DS_Store
