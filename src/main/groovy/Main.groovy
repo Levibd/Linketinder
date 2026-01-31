@@ -13,8 +13,9 @@ class Main {
             println "\n1. Listar Candidatos"
             println "2. Listar Empresas"
             println "3. Cadastrar Candidato"
-            println "4. Listar Vagas"
-            println "5. Curtir Vaga (em construção)"
+            println "4. Cadastrar Empresa"
+            println "5. Listar Vagas"
+            println "6. Curtir Vaga (em construção)"
             println "0. Sair"
             print "> "
 
@@ -54,13 +55,34 @@ class Main {
                     service.addCandidate(novo)
                     println "✅ Salvo com sucesso!"
                     break
+
+
                 case "4":
+                    println "\n--- Novo Cadastro de Empresa ---"
+                    print "Nome: "
+                    def nomeEmp = scanner.nextLine()
+                    print "Email: "
+                    def emailEmp = scanner.nextLine()
+                    print "Skills que busca (separe por vírgula): "
+                    def skillsEmp = scanner.nextLine().split(",").collect { it.trim() }
+
+                    def novaEmp = new model.Empresa(
+                            name: nomeEmp, email: emailEmp, skills: skillsEmp,
+
+                            cnpj: "00.000.000/0000-00", country: "ND", state: "ND", cep: "00000-000", description: "Nova empresa"
+                    )
+
+                    service.addCompany(novaEmp)
+                    println "✅ Empresa salva com sucesso!"
+                    break
+
+                case "5":
                     println "\n--- 💼 VAGAS DISPONÍVEIS ---"
                     service.vagas.eachWithIndex { v, index ->
                         println "${index}. ${v.name} [${v.empresa.name}] - Skills: ${v.skills}"
                     }
                     break
-                case "5": // Simular Fluxo de Match (Demo)
+                case "6": // Simular Fluxo de Match (Demo)
                     println "\n--- ❤️ SIMULAÇÃO DE MATCH ---"
 
                     def candidatoLevi = service.candidatos[0] // Levi

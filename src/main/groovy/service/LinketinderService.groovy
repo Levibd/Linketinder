@@ -47,7 +47,18 @@ class LinketinderService {
     }
 
     void addCandidate(Candidato c) {
+        if(!c.name){
+            throw new IllegalArgumentException("Candidate name cannot be empty")
+        }
         candidatesList << c
+    }
+
+    void addCompany(Empresa e){
+        if(!e.cnpj){
+            throw new IllegalArgumentException("CNPJ cannot bem empty")
+        }
+
+        companies << e
     }
 
     void likeJob(Candidato candidato, Vaga vaga) {
