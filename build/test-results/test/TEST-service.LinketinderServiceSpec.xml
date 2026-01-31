@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="service.LinketinderServiceSpec" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-01-31T07:43:12.691Z" hostname="WN994PE0EAJJL" time="0.09">
+  <properties/>
+  <testcase name="Should add a new candidate" classname="service.LinketinderServiceSpec" time="0.055"/>
+  <testcase name="Should add a new company to the list" classname="service.LinketinderServiceSpec" time="0.011"/>
+  <testcase name="Should not add a candidate with empty name" classname="service.LinketinderServiceSpec" time="0.012"/>
+  <testcase name="Should not add a company with invalid CNPJ" classname="service.LinketinderServiceSpec" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
