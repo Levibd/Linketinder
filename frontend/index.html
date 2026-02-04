@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Linketinder - ZG Hero</title>
+    <link rel="stylesheet" href="/src/style.css"> 
+    <link rel="icon" type="image/" href="./public/zg_logo-removebg-preview.png" />
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <h1>🔥 Linketinder</h1>
+        <nav>
+          <button onclick="switchTab('cadastro-candidato')">Sou Candidato (Cadastro)</button>
+          <button onclick="switchTab('cadastro-empresa')">Sou Empresa (Cadastro)</button>
+          <button onclick="switchTab('visao-candidato')">Painel Vagas</button>
+          <button onclick="switchTab('visao-empresa')">Painel Candidatos</button>
+        </nav>
+      </header>
+
+      <main>
+        <section id="cadastro-candidato" class="tab-content active">
+          <h2>Cadastro de Candidato</h2>
+          <form id="form-candidato">
+            <input type="text" id="cand-name" placeholder="Nome Completo" required />
+            <input type="email" id="cand-email" placeholder="E-mail" required />
+            <input type="text" id="cand-cpf" placeholder="CPF" required />
+            <input type="number" id="cand-age" placeholder="Idade" required />
+            <input type="text" id="cand-state" placeholder="Estado (UF)" required />
+            <input type="text" id="cand-skills" placeholder="Skills (separe por vírgula)" required />
+            <textarea id="cand-desc" placeholder="Descrição pessoal"></textarea>
+            <button type="submit">Cadastrar</button>
+          </form>
+        </section>
+
+        <section id="cadastro-empresa" class="tab-content" style="display:none;">
+          <h2>Cadastro de Empresa</h2>
+          <form id="form-empresa">
+            <input type="text" id="emp-name" placeholder="Nome da Empresa" required />
+            <input type="email" id="emp-email" placeholder="E-mail Corporativo" required />
+            <input type="text" id="emp-cnpj" placeholder="CNPJ" required />
+            <input type="text" id="emp-country" placeholder="País" required />
+            <input type="text" id="emp-state" placeholder="Estado" required />
+            <input type="text" id="emp-vacancies" placeholder="Vagas (separe por vírgula)" required />
+            <textarea id="emp-desc" placeholder="Descrição da Empresa"></textarea>
+            <button type="submit">Cadastrar</button>
+          </form>
+        </section>
+
+        <section id="visao-candidato" class="tab-content" style="display:none;">
+            <h2>Vagas Disponíveis</h2>
+            <div id="lista-vagas" class="card-container"></div>
+        </section>
+
+        <section id="visao-empresa" class="tab-content" style="display:none;">
+            <h2>Perfil da Empresa</h2>
+            
+            <div class="dashboard-grid">
+                <div class="chart-container">
+                    <h3>Competências de Mercado</h3>
+                    <canvas id="skillsChart"></canvas>
+                </div>
+
+                <div class="list-container">
+                    <h3>Candidatos Disponíveis</h3>
+                    <table id="tabela-candidatos">
+                        <thead>
+                            <tr>
+                                <th>Candidato (Anônimo)</th>
+                                <th>Skills</th>
+                                <th>Estado</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+    
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+            document.getElementById(tabId).style.display = 'block';
+        }
+    </script>
+  </body>
+</html>
