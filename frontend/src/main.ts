@@ -9,23 +9,59 @@ const candidates: ICandidate[] = [];
 const companies: ICompany[] = [];
 let skillsChart: Chart | null = null; 
 
+const RegexPatterns = {
+    email: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/, // E-mail padrão
+    cpf: /^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/, // 11 digitos, com ou sem ponto/traço
+    cnpj: /^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}$/, // CNPJ padrão
+    phone: /^\(?\d{2}\)?\s?9?\d{4}-?\d{4}$/, // Celular com ou sem DDD
+    cep: /^\d{5}-?\d{3}$/, // CEP 12345-678 ou 12345678
+    linkedin: /^https:\/\/(www\.)?linkedin\.com\/in\/[\w-]+\/?$/, // URL do LinkedIn
+    tags: /^[\w\sà-úÀ-Ú+#]+(,[\w\sà-úÀ-Ú+#]+)*$/ // Palavras separadas por virgula
+};
+
+function validateField(value: string, regex: RegExp, fieldName: string): boolean {
+    if (!regex.test(value)) {
+        alert(`Erro de Validação: O campo [${fieldName}] está inválido!`);
+        return false;
+    }
+    return true;
+}
+
 // --- FUNÇÕES DE CADASTRO (CREATE) ---
 
 const formCandidato = document.getElementById('form-candidato') as HTMLFormElement;
 formCandidato.addEventListener('submit', (e) => {
     e.preventDefault();
-    
+
+    const name = (document.getElementById('cand-name') as HTMLInputElement).value;
+    const email = (document.getElementById('cand-email') as HTMLInputElement).value;
+    const cpf = (document.getElementById('cand-cpf') as HTMLInputElement).value;
+    const phone = (document.getElementById('cand-phone') as HTMLInputElement).value;
+    const linkedin = (document.getElementById('cand-linkedin') as HTMLInputElement).value;
     const skillsInput = (document.getElementById('cand-skills') as HTMLInputElement).value;
+    const age = parseInt((document.getElementById('cand-age') as HTMLInputElement).value);
+    const state = (document.getElementById('cand-state') as HTMLInputElement).value;
+    const desc = (document.getElementById('cand-desc') as HTMLTextAreaElement).value;
     
+    if (!validateField(email, RegexPatterns.email, "E-mail")) return;
+    if (!validateField(cpf, RegexPatterns.cpf, "CPF")) return;
+    if (!validateField(phone, RegexPatterns.phone, "Telefone")) return;
+    if (!validateField(linkedin, RegexPatterns.linkedin, "LinkedIn")) return;
+    if (!validateField(skillsInput, RegexPatterns.tags, "Skills")) return;
+    
+
+
     const newCandidate: ICandidate = {
         id: Date.now(),
-        name: (document.getElementById('cand-name') as HTMLInputElement).value,
-        email: (document.getElementById('cand-email') as HTMLInputElement).value,
-        cpf: (document.getElementById('cand-cpf') as HTMLInputElement).value,
-        age: parseInt((document.getElementById('cand-age') as HTMLInputElement).value),
-        state: (document.getElementById('cand-state') as HTMLInputElement).value,
-        description: (document.getElementById('cand-desc') as HTMLTextAreaElement).value,
-        skills: skillsInput.split(',').map(s => s.trim().toUpperCase()) // Padroniza skills
+        name,
+        email,
+        cpf,
+        age,
+        state,
+        phone,
+        linkedin,
+        description: desc,
+        skills: skillsInput.split(',').map(s => s.trim().toUpperCase())
     };
 
     candidates.push(newCandidate);
@@ -38,16 +74,30 @@ const formEmpresa = document.getElementById('form-empresa') as HTMLFormElement;
 formEmpresa.addEventListener('submit', (e) => {
     e.preventDefault();
     
+    const name = (document.getElementById('emp-name') as HTMLInputElement).value;
+    const email = (document.getElementById('emp-email') as HTMLInputElement).value;
+    const cnpj = (document.getElementById('emp-cnpj') as HTMLInputElement).value;
+    const cep = (document.getElementById('emp-cep') as HTMLInputElement).value;
     const vacanciesInput = (document.getElementById('emp-vacancies') as HTMLInputElement).value;
+    const country = (document.getElementById('emp-country') as HTMLInputElement).value;
+    const state = (document.getElementById('emp-state') as HTMLInputElement).value;
+    const desc = (document.getElementById('emp-desc') as HTMLTextAreaElement).value;
+
+    if (!validateField(email, RegexPatterns.email, "E-mail Corporativo")) return;
+    if (!validateField(cnpj, RegexPatterns.cnpj, "CNPJ")) return;
+    if (!validateField(cep, RegexPatterns.cep, "CEP")) return;
+    if (!validateField(vacanciesInput, RegexPatterns.tags, "Vagas")) return;
+
 
     const newCompany: ICompany = {
         id: Date.now(),
-        name: (document.getElementById('emp-name') as HTMLInputElement).value,
-        email: (document.getElementById('emp-email') as HTMLInputElement).value,
-        cnpj: (document.getElementById('emp-cnpj') as HTMLInputElement).value,
-        country: (document.getElementById('emp-country') as HTMLInputElement).value,
-        state: (document.getElementById('emp-state') as HTMLInputElement).value,
-        description: (document.getElementById('emp-desc') as HTMLTextAreaElement).value,
+        name,
+        email,
+        cnpj,
+        country,
+        state,
+        cep,
+        description: desc,
         vacancies: vacanciesInput.split(',').map(v => v.trim())
     };
 
