@@ -40,6 +40,30 @@ Localizado na raiz. O núcleo da lógica de negócios focado em POO.
     * 🧠 **Algoritmo de Match:** Lógica para identificar interesses mútuos.
     * 🧪 **TDD & Testes:** Regras de negócio blindadas por testes unitários com Spock.
     * 🗂️ **Gerenciamento:** CRUD em memória de perfis.
+ 
+## 🗄️ Modelagem de Dados (PostgreSQL)
+Para a persistência dos dados, o sistema saiu da memória volátil para um banco relacional **PostgreSQL**, rodando via **Docker**.
+
+### 🐳 Como subir o Banco
+Não é necessário instalar nada na máquina. Basta ter o Docker rodando:
+
+docker compose up -d
+
+O ambiente subirá:
+
+Postgres na porta 5432.
+
+pgAdmin (Interface Visual) na porta 5050 (Acesso: http://localhost:5050).
+
+🗺️ Diagrama Entidade-Relacionamento (DER)
+Modelagem contemplando as regras de negócio:
+
+Relacionamento N:N entre Candidatos/Vagas e Competências.
+
+Relacionamento 1:N entre Empresas e Vagas.
+
+<img width="1061" height="789" alt="Diagram DB" src="https://github.com/user-attachments/assets/d4205c5c-26fa-452d-83d6-db48a342b77d" />
+
 
 ---
 
