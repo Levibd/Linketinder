@@ -40,9 +40,18 @@ Localizado na raiz. O núcleo da lógica de negócios focado em POO.
     * 🧠 **Algoritmo de Match:** Lógica para identificar interesses mútuos.
     * 🧪 **TDD & Testes:** Regras de negócio blindadas por testes unitários com Spock.
     * 🗂️ **Gerenciamento:** CRUD em memória de perfis.
- 
-## 🗄️ Modelagem de Dados (PostgreSQL)
-Para a persistência dos dados, o sistema saiu da memória volátil para um banco relacional **PostgreSQL**, rodando via **Docker**.
+
+      
+ ## 🗄️ Arquitetura de Dados (Persistência)
+
+Nesta etapa (K1-T9), o sistema migrou de armazenamento em memória para um Banco de Dados Relacional **PostgreSQL**.
+
+### 🐳 Ambiente Docker
+O projeto conta com containerização para facilitar a execução do banco e ferramentas de administração.
+
+**Serviços:**
+1.  **PostgreSQL 15:** Rodando na porta `5432`.
+2.  **pgAdmin 4:** Interface web para gestão do banco, rodando na porta `5050`.
 
 ### 🐳 Como subir o Banco
 Não é necessário instalar nada na máquina. Basta ter o Docker rodando:
