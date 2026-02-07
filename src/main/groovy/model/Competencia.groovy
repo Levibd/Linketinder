@@ -3,7 +3,7 @@ package model
 import groovy.transform.Canonical
 
 @Canonical
-class Empresa extends Pessoa{
-    String cnpj
+class Competencia {
+    Integer id
+    String nome
 }
-

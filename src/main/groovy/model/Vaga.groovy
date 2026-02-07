@@ -4,9 +4,10 @@ import groovy.transform.Canonical
 
 @Canonical
 class Vaga {
-    String name
-    String description
-    String state
+    Integer id
+    String nome
+    String descricao
+    String local
     Empresa empresa
     List<String> skills = []
 }

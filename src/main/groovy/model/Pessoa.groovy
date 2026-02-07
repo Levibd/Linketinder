@@ -4,10 +4,11 @@ import groovy.transform.Canonical
 
 @Canonical
 abstract class Pessoa {
-    String name
+    Integer id
+    String nome
     String email
-    String state
+    String pais
     String cep
-    String description
-    List<String> skills = []
+    String descricao
+    String senha
 }
