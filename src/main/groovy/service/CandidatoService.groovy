@@ -6,6 +6,10 @@ import model.Candidato
 class CandidatoService {
     CandidatoDAO dao
 
+    CandidatoService() {
+        this.dao = new CandidatoDAO()
+    }
+
     CandidatoService(CandidatoDAO dao) {
         this.dao = dao
     }

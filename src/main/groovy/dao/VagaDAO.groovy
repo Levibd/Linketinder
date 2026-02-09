@@ -10,7 +10,15 @@ class VagaDAO implements Repositorio<Vaga> {
 
 
     VagaDAO(Connection conexao) {
-        this.conexao = conexao
+        try {
+
+            this.conexao = DatabaseConnection.getInstancia()
+
+
+        } catch (Exception e) {
+            println "⚠️ ERRO GRAVE: Não foi possível iniciar a conexão no DAO!"
+            e.printStackTrace()
+        }
     }
 
     @Override
