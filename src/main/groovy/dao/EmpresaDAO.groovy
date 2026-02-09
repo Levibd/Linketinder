@@ -1,15 +1,19 @@
 package dao
 
 import model.Empresa
-
 import java.sql.*
 
-class EmpresaDAO {
+class EmpresaDAO implements Repositorio<Empresa> {
 
-    void save(Empresa empresa){
-        Connection conn = DatabaseConnection.getConnection()
+    private Connection conexao
 
-        try{
+    EmpresaDAO(Connection conexao) {
+        this.conexao = conexao
+    }
+
+    @Override
+    void salvar(Empresa empresa) {
+        try {
             String sql = """
                 INSERT INTO empresas 
                 (nome, cnpj, email, descricao, pais, cep, senha) 
@@ -17,7 +21,7 @@ class EmpresaDAO {
                 RETURNING id
             """
 
-            PreparedStatement stmt = conn.prepareStatement(sql)
+            PreparedStatement stmt = this.conexao.prepareStatement(sql)
 
             stmt.setString(1, empresa.nome)
             stmt.setString(2, empresa.cnpj)
@@ -33,21 +37,21 @@ class EmpresaDAO {
                 empresa.id = rs.getInt("id")
                 println "✅ Empresa ${empresa.nome} salva com sucesso!"
             }
-        } catch (Exception e){
+        } catch (SQLException e) {
             println "❌ Erro ao salvar empresa: " + e.message
             e.printStackTrace()
-        } finally {
-            conn.close()
         }
+
     }
 
+    @Override
     List<Empresa> listar() {
-        Connection conn = DatabaseConnection.getConnection()
         List<Empresa> lista = []
 
         try {
             String sql = "SELECT * FROM empresas"
-            PreparedStatement stmt = conn.prepareStatement(sql)
+
+            PreparedStatement stmt = this.conexao.prepareStatement(sql)
             ResultSet rs = stmt.executeQuery()
 
             while (rs.next()) {
@@ -62,11 +66,11 @@ class EmpresaDAO {
                 )
                 lista.add(emp)
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            println "❌ Erro ao listar empresas: " + e.message
             e.printStackTrace()
-        } finally {
-            conn.close()
         }
+
         return lista
     }
 }

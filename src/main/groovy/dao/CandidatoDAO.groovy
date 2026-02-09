@@ -1,17 +1,21 @@
 package dao
 
 import model.Candidato
-
 import java.sql.*
 
-class CandidatoDAO {
+class CandidatoDAO implements Repositorio<Candidato> {
 
-    void save(Candidato candidato){
-        Connection conn = DatabaseConnection.getConnection()
+    private Connection conexao
 
+    CandidatoDAO(Connection conexao) {
+        this.conexao = conexao
+    }
+
+    @Override
+    void salvar(Candidato candidato) {
         try {
-            conn.setAutoCommit(false)
 
+            this.conexao.setAutoCommit(false)
 
             String sqlCandidato = """
                 INSERT INTO candidatos 
@@ -19,7 +23,9 @@ class CandidatoDAO {
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) 
                 RETURNING id
             """
-            PreparedStatement stmt = conn.prepareStatement(sqlCandidato)
+
+
+            PreparedStatement stmt = this.conexao.prepareStatement(sqlCandidato)
 
             stmt.setString(1, candidato.nome)
             stmt.setString(2, candidato.sobrenome)
@@ -37,44 +43,59 @@ class CandidatoDAO {
                 int idCandidato = rs.getInt("id")
                 candidato.id = idCandidato
 
-                // 2. Lidar com Competências (N:N)
-                CompetenciaDAO competenciaDAO = new CompetenciaDAO(conn)
+                CompetenciaDAO competenciaDAO = new CompetenciaDAO(this.conexao)
+
                 for (String skill : candidato.skills) {
                     int idCompetencia = competenciaDAO.buscarOuCriar(skill)
                     competenciaDAO.vincularCandidato(idCandidato, idCompetencia)
                 }
             }
 
-            conn.commit()
+            this.conexao.commit()
             println "✅ Candidato ${candidato.nome} salvo com sucesso!"
 
         } catch (Exception e) {
-            conn.rollback()
+            try {
+                this.conexao.rollback()
+            } catch (SQLException re) {
+
+            }
             println "❌ Erro ao salvar candidato: " + e.getMessage()
+            e.printStackTrace()
         } finally {
-            conn.close()
+            try {
+                this.conexao.setAutoCommit(true)
+            } catch (SQLException e) {}
 
 
         }
     }
 
+    @Override
     List<Candidato> listar() {
         List<Candidato> lista = []
-        Connection conn = DatabaseConnection.getConnection()
         String sql = "SELECT * FROM candidatos"
-        PreparedStatement stmt = conn.prepareStatement(sql)
-        ResultSet rs = stmt.executeQuery()
 
-        while(rs.next()) {
-            Candidato c = new Candidato()
-            c.id = rs.getInt("id")
-            c.nome = rs.getString("nome")
-            c.sobrenome = rs.getString("sobrenome")
-            c.email = rs.getString("email")
-            // ... preencha o resto ...
-            lista.add(c)
+
+        try {
+            Statement stmt = this.conexao.createStatement()
+            ResultSet rs = stmt.executeQuery(sql)
+
+            while(rs.next()) {
+                Candidato c = new Candidato()
+                c.id = rs.getInt("id")
+                c.nome = rs.getString("nome")
+                c.sobrenome = rs.getString("sobrenome")
+                c.email = rs.getString("email")
+                c.cpf = rs.getString("cpf")
+
+                lista.add(c)
+            }
+        } catch (SQLException e) {
+            println "Erro ao listar: " + e.getMessage()
         }
-        conn.close()
+
+
         return lista
     }
 }
