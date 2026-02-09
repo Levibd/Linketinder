@@ -58,7 +58,7 @@ class Main {
 
     static void inicializarDependencias() {
         try {
-            conexao = DatabaseConnection.getConnection()
+            conexao = DatabaseConnection.getInstancia()
             input = new InputService()
 
             candidatoDAO = new CandidatoDAO(conexao)
@@ -75,6 +75,7 @@ class Main {
     static void encerrarSistema() {
         if (conexao != null && !conexao.isClosed()) {
             conexao.close()
+            println "🔌 Conexão encerrada."
         }
     }
 

@@ -1,22 +1,33 @@
-package dao;
+package dao
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import factory.ConnectionFactory
+import factory.PostgresFactory
+import java.sql.Connection
+import java.sql.SQLException
 
 class DatabaseConnection {
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
-    private static final String USER = "admin";
-    private static final String PASSWORD = "password123";
 
-    static Connection getConnection() {
-        try{
-            return  DriverManager.getConnection(URL, USER, PASSWORD);
+    private static Connection instancia
+
+
+    private DatabaseConnection() {}
+
+
+    static Connection getInstancia() {
+        try {
+
+            if (instancia == null || instancia.isClosed()) {
+
+                ConnectionFactory fabrica = new PostgresFactory()
+
+                instancia = fabrica.criarConexao()
+                println "🔌 [Singleton] Nova conexão com banco criada."
+            }
         } catch (SQLException e) {
-            println "❌ Erro ao conectar no banco: " + e.getMessage()
-            throw e
+            throw new RuntimeException("Erro ao gerenciar conexão Singleton: " + e.message)
         }
-    }
 
+        return instancia
+    }
 }
