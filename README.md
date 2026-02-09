@@ -16,6 +16,23 @@ O projeto evoluiu de um MVP Backend para uma aplicação **Fullstack**, contando
 
 ---
 
+## 🚀 Funcionalidades Implementadas
+- **Arquitetura MVC Pura:** Separação clara entre Models, DAOs (Data Access Objects), Services e Controllers (Servlets).
+- **CRUD de Candidatos:** Cadastro completo com persistência em banco relacional.
+- **Tratamento de Dados:**
+  - Conversão de JSON manual com GSON.
+  - TypeAdapter customizado para lidar com `LocalDate` (Java 8 Time API).
+- **Infraestrutura:**
+  - Build automatizado com **Gradle**.
+  - Servidor **Tomcat embarcado** (via plugin Gretty) para facilitar a execução.
+  - Conexão **JDBC Singleton** com PostgreSQL.
+
+## 🛠️ Tecnologias
+- Java 17 / Groovy 4
+- Servlet API 4.0.1
+- PostgreSQL (Driver JDBC)
+- Google GSON
+
 ## 🏛️ Refatoração MVC (Model-View-Controller)
 
 Nesta etapa, o projeto foi reestruturado para seguir o padrão arquitetural **MVC**, separando claramente as responsabilidades e preparando a aplicação para escalabilidade.
