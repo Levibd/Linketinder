@@ -73,6 +73,31 @@ Relacionamento 1:N entre Empresas e Vagas.
 
 <img width="1061" height="789" alt="Diagram DB" src="https://github.com/user-attachments/assets/d4205c5c-26fa-452d-83d6-db48a342b77d" />
 
+## 🧩 Design Patterns Aplicados
+
+Nesta refatoração, a arquitetura do Linketinder evoluiu para utilizar padrões de projeto clássicos (GoF), visando desacoplamento e gestão eficiente de recursos.
+
+### 1️⃣ Singleton Pattern
+* **Onde:** Classe `DatabaseConnection`.
+* **Problema:** Abertura indiscriminada de múltiplas conexões com o banco de dados, consumindo recursos desnecessários do servidor PostgreSQL.
+* **Solução:** Implementação de uma instância estática única (`private static Connection instancia`). O método `getInstancia()` verifica se a conexão já existe antes de criar uma nova.
+* **Benefício:** Controle centralizado de recursos e garantia de que toda a aplicação compartilha o mesmo contexto transacional.
+
+### 2️⃣ Factory Method Pattern
+* **Onde:** Interface `ConnectionFactory` e classe `PostgresFactory`.
+* **Problema:** O código de conexão JDBC estava acoplado ("chumbado") diretamente na classe utilitária, dificultando a troca de banco de dados (ex: mudar para Oracle ou H2 para testes).
+* **Solução:** Criação de uma interface fábrica que define o contrato de criação. A implementação concreta (`PostgresFactory`) contém os detalhes específicos do driver JDBC.
+* **Benefício:** Segue o princípio Aberto/Fechado (OCP). Para mudar o banco, basta criar uma nova classe `MysqlFactory` sem alterar a lógica de negócio ou os DAOs.
+
+### 3️⃣ DAO (Data Access Object)
+* **Onde:** Pacote `dao` (`CandidatoDAO`, etc).
+* **Conceito:** Abstração da camada de persistência.
+* **Benefício:** Separa completamente a lógica de negócio (Model/Service) dos comandos SQL complexos.
+
+### 4️⃣ Strategy Pattern (Via Injeção de Dependência)
+* **Onde:** Interface `Repositorio<T>`.
+* **Aplicação:** Ao definirmos um contrato comum para os repositórios, permitimos que a aplicação trate diferentes entidades (Candidato, Empresa) de forma polimórfica, facilitando a troca da estratégia de armazenamento no futuro.
+
 
 ---
 
