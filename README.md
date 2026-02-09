@@ -16,8 +16,30 @@ O projeto evoluiu de um MVP Backend para uma aplicação **Fullstack**, contando
 
 ---
 
-## 🏗 Arquitetura & Estrutura
-O projeto funciona no formato **Monorepo**, dividido em:
+## 🏛️ Refatoração MVC (Model-View-Controller)
+
+Nesta etapa, o projeto foi reestruturado para seguir o padrão arquitetural **MVC**, separando claramente as responsabilidades e preparando a aplicação para escalabilidade.
+
+### 🔄 Como o código foi organizado:
+
+1.  **View (Camada de Apresentação):**
+    * **Onde:** Classe `Main` e `InputService`.
+    * **Responsabilidade:** A classe `Main` agora atua apenas como roteadora. Ela não contém lógica de negócio nem SQL. Ela exibe o menu e captura a intenção do usuário.
+
+2.  **Controller (Camada de Controle):**
+    * **Onde:** Pacote `controller` (`CandidatoController`, `EmpresaController`, etc.).
+    * **Responsabilidade:** Recebe a entrada da View, orquestra a chamada para os serviços e decide qual resposta devolver para a tela. É o "maestro" da operação.
+
+3.  **Service (Camada de Negócio):**
+    * **Onde:** Pacote `service`.
+    * **Responsabilidade:** Contém a lógica de negócio (ex: validações de campos obrigatórios). É a única camada autorizada a falar com o banco de dados (DAO).
+
+4.  **Model/DAO (Camada de Dados):**
+    * **Onde:** Pacotes `model` e `dao`.
+    * **Responsabilidade:** O `DAO` (Data Access Object) persiste os dados no PostgreSQL. O `Model` representa a estrutura dos dados.
+
+### 🚀 Benefício da Refatoração
+A aplicação deixou de ser um script procedural monolítico e passou a ser um sistema modular. Agora, a troca de uma interface de linha de comando (Console) para uma API REST ou Web exigiria apenas a substituição da camada **View/Controller**, mantendo toda a regra de negócio (`Service`) e persistência (`DAO`) intactas.
 
 ### 🎨 Frontend (Interface & Dashboards)
 Localizado na pasta `/frontend`. A interface moderna sai do terminal e vai para o navegador.
