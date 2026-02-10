@@ -8,8 +8,8 @@ import model.Vaga
 class VagaService {
     VagaDAO dao
 
-    VagaService(VagaDAO dao) {
-        this.dao = dao
+    VagaService() {
+        this.dao = new VagaDAO()
     }
 
     void cadastrarVaga(Vaga vaga) {

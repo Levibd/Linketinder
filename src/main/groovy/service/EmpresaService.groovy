@@ -9,8 +9,8 @@ class EmpresaService {
 
     EmpresaDAO dao
 
-    EmpresaService(EmpresaDAO dao) {
-        this.dao = dao
+    EmpresaService() {
+        this.dao = new EmpresaDAO()
     }
 
     void cadastrarEmpresa(Empresa empresa) {

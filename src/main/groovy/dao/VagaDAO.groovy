@@ -9,7 +9,7 @@ class VagaDAO implements Repositorio<Vaga> {
     private Connection conexao
 
 
-    VagaDAO(Connection conexao) {
+    VagaDAO() {
         try {
 
             this.conexao = DatabaseConnection.getInstancia()

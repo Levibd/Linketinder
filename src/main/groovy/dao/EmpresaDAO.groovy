@@ -7,7 +7,7 @@ class EmpresaDAO implements Repositorio<Empresa> {
 
     private Connection conexao
 
-    EmpresaDAO(Connection conexao) {
+    EmpresaDAO() {
         try {
 
             this.conexao = DatabaseConnection.getInstancia()

@@ -66,7 +66,7 @@ class CandidatoServlet extends HttpServlet {
             resp.characterEncoding = "UTF-8"
 
 
-            String jsonResposta = gson.toJson(service.listarTodos())
+            String jsonResposta = gson.toJson(service.listarCandidatos())
             resp.writer.print(jsonResposta)
 
         } catch (Exception e) {
