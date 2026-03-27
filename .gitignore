@@ -21,3 +21,22 @@ lib/
 bin/
 .vscode/
 .DS_Store
+
+# Pastas de Build e Cache do Gradle
+.gradle/
+build/
+out/
+
+# Arquivos da IDE (IntelliJ, Eclipse, VS Code)
+.idea/
+*.iml
+*.iws
+.vscode/
+
+# Arquivos compilados
+*.class
+*.jar
+*.war
+
+# Logs
+*.log

@@ -96,6 +96,12 @@ class CandidatoDAO implements Repositorio<Candidato> {
                 c.sobrenome = rs.getString("sobrenome")
                 c.email = rs.getString("email")
                 c.cpf = rs.getString("cpf")
+                c.pais = rs.getString("pais")
+
+                java.sql.Date dataSQL = rs.getDate("data_nascimento")
+                if (dataSQL != null) {
+                    c.dataNascimento = dataSQL.toLocalDate()
+                }
 
                 lista.add(c)
             }

@@ -1,0 +1,20 @@
+<div style="max-width: 800px; margin: 0 auto; padding: 20px;">
+  <h2>Candidatos Disponíveis no Linketinder 🚀</h2>
+
+  <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
+    
+    @for (cand of candidatos; track cand.cpf) {
+      <div style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; width: 250px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);">
+        <h3 style="margin-top: 0;">{{ cand.nome }} {{ cand.sobrenome }}</h3>
+        <p><strong>E-mail:</strong> {{ cand.email }}</p>
+        <p><strong>País:</strong> {{ cand.pais }}</p>
+        <p><strong>Nascimento:</strong> {{ cand.dataNascimento }}</p>
+        
+        
+      </div>
+    } @empty {
+      <p style="color: gray;">Nenhum candidato cadastrado ainda. A base está vazia!</p>
+    }
+
+  </div>
+</div>
